@@ -1,0 +1,9 @@
+{
+    "name": "chat-app",
+    "version": "0.0.1",
+    "description": "app for real-time chatting",
+    "dependencies": {
+        "mongodb": "^6.16.0",
+        "mongoose": "^8.14.1"
+    }
+}

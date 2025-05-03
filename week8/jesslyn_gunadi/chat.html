@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>chat application</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="main-container">
+      <div id="chat-area">
+        <ul id="messages"></ul>
+        <form id="form" action="">
+          <input id="input" autocomplete="off" />
+          <button>Send</button>
+        </form>
+      </div>
+    
+      <div id="user-list">
+        <h3>Users</h3>
+        <ul id="users"></ul>
+        <button id="clear-history-btn">🗑️ Clear Chat History</button>
+      </div>
+    </div>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+      const urlParams = new URLSearchParams(window.location.search);
+      const name = urlParams.get('name') || 'Anonymous';
+
+      const socket = io();
+      socket.emit('register', name);
+
+      const form = document.getElementById('form');
+      const input = document.getElementById('input');
+      const messages = document.getElementById('messages');
+
+      form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        if (input.value) {
+          socket.emit('chat message', `${name}: ${input.value}`);
+          input.value = '';
+        }
+      });
+
+      socket.on('chat message', function(msg) {
+        const item = document.createElement('li');
+        item.textContent = msg;
+        messages.appendChild(item);
+        window.scrollTo(0, document.body.scrollHeight);
+      });
+
+      const usersList = document.getElementById('users');
+
+      socket.on('user list', function(userArray) {
+        usersList.innerHTML = '';
+        userArray.forEach((username) => {
+          const li = document.createElement('li');
+          li.textContent = username;
+          usersList.appendChild(li);
+        });
+      });
+
+      const clearBtn = document.getElementById('clear-history-btn');
+
+      clearBtn.addEventListener('click', async () => {
+        if (confirm('Are you sure you want to clear all chat history?')) {
+          const res = await fetch('/messages', { method: 'DELETE' });
+          if (res.ok) {
+            messages.innerHTML = '';
+          }
+        }
+      });
+
+      socket.on('clear messages', () => {
+        messages.innerHTML = '';
+      });
+    </script>
+  </body>
+</html>

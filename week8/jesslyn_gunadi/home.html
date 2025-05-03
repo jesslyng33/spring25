@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>Welcome to Chat</title>
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="home-container">
+      <h1>Enter your name to start chatting</h1>
+      <form id="name-form">
+        <input id="name-input" type="text" placeholder="Your name" required />
+        <button type="submit">Join Chat</button>
+      </form>
+    </div>
+
+    <script>
+      document.getElementById('name-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+        const name = document.getElementById('name-input').value.trim();
+        if (name) {
+          window.location.href = `/chat?name=${encodeURIComponent(name)}`;
+        }
+      });
+    </script>
+  </body>
+</html>

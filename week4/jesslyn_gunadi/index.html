@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <div id="top-bar">
+            🍪 Cookies Per Second (CPS): <span id="cps">0</span>
+        </div>    
+        <h1>
+            <span id="counter">0</span> cookies
+        </h1>
+        <h2>
+            change the cookie every 30 clicks!
+        </h2>
+        <h3>
+            sometimes a random cookie will appear - press it quick to get +10 points!
+        </h3>
+        <div id="cookie-wrapper">
+            <img id="cookie" src="https://www.gfifoods.com/media/catalog/product/cache/608c797bf41e8874bcf75172f32fd01b/1/_/1.520oz20cookie_20220613-094305_rqhft3tmv23k13bn.jpg" onclick="addOneToCounter()" />
+            <div id="bonus-cookie-container"></div>
+        </div>
+        <script src="script.js"></script>
+    </body>
+</html>

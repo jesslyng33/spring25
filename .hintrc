@@ -24,6 +24,13 @@
           "backdrop-filter"
         ]
       }
+    ],
+    "meta-charset-utf-8": "off",
+    "axe/text-alternatives": [
+      "default",
+      {
+        "image-alt": "off"
+      }
     ]
   }
 }

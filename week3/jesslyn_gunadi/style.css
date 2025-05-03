@@ -1,0 +1,41 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #fff8dc; /* light cookie-dough color */
+    margin-top: 50px;
+    padding-top: 70px;
+}
+
+h1 {
+    font-size: 48px;
+    color: #8b4513; /* chocolate brown */
+}
+
+#counter {
+    font-weight: bold;
+    color: #d2691e; /* golden brown */
+}
+
+img {
+    width: 300px;
+    cursor: pointer;
+    transition: transform 0.1s ease;
+    border-radius: 15px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+}
+
+img:active {
+    transform: scale(0.95);
+}
+
+#top-bar {
+    background-color: #deb887; /* light brown */
+    padding: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #4b2e2e;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}

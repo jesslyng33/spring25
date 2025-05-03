@@ -4,49 +4,38 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
+const users = {};
+
+app.use(express.static(__dirname));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/index.html');
+  res.sendFile(__dirname + '/home.html');
+});
+
+app.get('/chat', (req, res) => {
+  res.sendFile(__dirname + '/chat.html');
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('User connected:', socket.id);
+
+  socket.on('register', (name) => {
+    users[socket.id] = name;
+    console.log(`Registered user: ${name}`);
+    io.emit('user list', Object.values(users));
+  });
+
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+    delete users[socket.id];
+    io.emit('user list', Object.values(users));
+  });
 });
 
 server.listen(3000, () => {
   console.log('listening on *:3000');
-});
-
-const httpProxy = require("http-proxy");
-
-httpProxy
-  .createProxyServer({
-    target: "http://localhost:3000",
-    ws: true,
-  })
-  .listen(80);
-
-io.on('connection', (socket) => {
-  console.log('a user connected');
-  socket.on('disconnect', () => {
-    console.log('user disconnected');
-  });
-});
-
-io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    console.log('message: ' + msg);
-  });
-});
-
-io.emit('some event', { someProperty: 'some value', otherProperty: 'other value' });
-
-io.on('connection', (socket) => {
-  socket.broadcast.emit('hi');
-});
-
-io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
-  });
 });
